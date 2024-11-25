@@ -8,6 +8,14 @@ function front<T>(signalArray: WritableSignal<T[]>){
   return array[0];
 };
 
+function tail<T>(signalArray: WritableSignal<T[]>){
+  let array = signalArray();
+  if (array.length === 0) {
+    return undefined
+  }
+  return array[array.length - 1];
+}
+
 function dequeue<T>(signalArray: WritableSignal<T[]>){
   let array = signalArray();
   if (array.length === 0) {
@@ -23,7 +31,8 @@ function enqueue<T>(signalArray: WritableSignal<T[]>, element: T){
 };
 
 export {
-    front, 
+    front,
+    tail,
     dequeue, 
     enqueue
 };

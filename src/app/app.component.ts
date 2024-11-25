@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./components/header/header.component";
-import { MapComponent } from "./map/map/map.component";
+import { MapComponent } from "./playback/map/map.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { HelpComponent } from './components/help/help.component';
 import { StatsComponent } from './components/stats/stats.component';

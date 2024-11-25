@@ -14,5 +14,5 @@ export class TimelineComponent {
   
   openingTime = this.simulator.options().OpeningTime;
   closingTime = this.simulator.options().ClosingTime;
-  currentTime = this.simulator.currentTime;
+  //currentTime = this.simulator.currentTime;
 }
