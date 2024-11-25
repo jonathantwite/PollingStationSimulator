@@ -1,0 +1,14 @@
+$person-size: 15px;
+
+:host{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+.person {
+    width: $person-size;
+    height: $person-size;
+    border: solid 2px black;
+    margin: 2px;
+    border-radius: $person-size;
+}

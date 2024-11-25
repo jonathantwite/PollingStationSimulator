@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-station',
@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './station.component.scss'
 })
 export class StationComponent {
-
+  numOfStations = input<number>();
 }

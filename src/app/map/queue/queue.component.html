@@ -1,1 +1,3 @@
-<p>queue works!</p>
+@for (person of people(); track $index) {
+    <div class="person" appTimeInPollingStationColor [timeEnteredPollingStation]="person.TimeEnteredRegisterDeskQueue" [currentTime]="currentTime"></div>
+}

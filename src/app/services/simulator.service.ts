@@ -32,10 +32,10 @@ export class SimulatorService {
     MinTimeInExitQueue: 60
   });
 
-  currentTime = signal(this.options().OpeningTime);
+  currentTime = signal(dayjs(new Date(2024,1,1,11,0,0))/*this.options().OpeningTime*/);
 
   BuildingQueue = signal<Person[]>([]);
-  RegisterDeskQueue = signal<Person[]>([]);
+  RegisterDeskQueue = signal<Person[]>([{ CurrentLocation: 'RegisterDeskQueue', TimeEnteredRegisterDeskQueue: dayjs(new Date(2024,1,1,10,55,0))}, { CurrentLocation: 'RegisterDeskQueue', TimeEnteredRegisterDeskQueue: dayjs(new Date(2024,1,1,9,30,0))}]);
   RegisterDesk = signal<Person[]>([]);
   VotingBoothQueue = signal<Person[]>([]);
   VotingBooth = signal<Person[]>([]);
@@ -57,13 +57,11 @@ export class SimulatorService {
         
         this.currentTime.set(this.getNextTimePoint());
       }
-
-
   }
 
   getNextTimePoint(){
-    //TODO
-    return dayjs(this.currentTime()).add(10, 'second');
+    //TODO - something clever to ignore time when nothing happens
+    return dayjs(this.currentTime()).add(1, 'second');
   }
 
   processTimePoint(time: Dayjs){

@@ -1,8 +1,8 @@
-<div class="border">
-    <app-room roomTitle="Door" />
-    <app-room roomTitle="Register Desk" />
-    <app-room roomTitle="Voting Booth" />
-    <app-room roomTitle="Ballot Box" />
-    <app-room roomTitle="Exit" />
-    <app-timeline />
+<div class="map">
+    <app-room class="location-door" roomTitle="Door" [queue]="buildingQueue()" [useStation]="false" />
+    <app-room class="location-registerdesk" roomTitle="Register Desk" [queue]="registerDeskQueue()" [station]="registerDesk()" [numOfStations]="numberOfRegisterDesks" />
+    <app-room class="location-votingbooth" roomTitle="Voting Booth" [queue]="votingBoothQueue()" [station]="votingBooth()" [numOfStations]="numberOfVotingBooths" />
+    <app-room class="location-ballotbox" roomTitle="Ballot Box" [queue]="ballotBoxQueue()" [station]="ballotBox()" [numOfStations]="numberOfBallotBoxes" />
+    <app-room class="location-exit" roomTitle="Exit" [queue]="exitQueue()" [useStation]="false" />
 </div>
+<app-timeline class="timeline" />

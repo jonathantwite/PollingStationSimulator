@@ -1,0 +1,43 @@
+$border: 2px solid black;
+:host{
+    border: $border;
+    border-left: 0;
+
+    &:first-of-type {
+        border-left: $border;
+    }
+
+    padding: 5px;
+
+    /*Child items*/
+    display: flex;
+    flex-direction: column;
+    justify-items: stretch;
+    align-items: stretch;
+    
+    .foreground,
+    .background {
+        grid-row: 1;
+        grid-column: 1;
+        flex-grow: 1;
+        //align-self: center;
+        //justify-self: stretch;
+    }
+}
+
+.title {
+    flex-grow: 0;
+    h3 {
+        color: grey;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.queue {
+    flex-grow: 1;
+}
+
+.station {
+    flex-grow: 1;
+}
