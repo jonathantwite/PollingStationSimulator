@@ -1,8 +1,8 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { SimulatorOptions } from '../types/SimulatorOptions';
-import { Queue } from 'queue-typescript';
 import { Person } from '../models/Person';
 import dayjs, { Dayjs } from 'dayjs';
+import { dequeue, enqueue, front } from '../helpers/signalHelpers/arrayHelpers';
 import { StationLocation } from '../types/StationLocation';
 
 @Injectable({
@@ -34,15 +34,15 @@ export class SimulatorService {
 
   currentTime = signal(this.options().OpeningTime);
 
-  BuildingQueue = new Queue<Person>();
-  RegisterDeskQueue = new Queue<Person>();
-  RegisterDesk: Person[] = [];
-  VotingBoothQueue = new Queue<Person>();
-  VotingBooth: Person[] = [];
-  BallotBoxQueue = new Queue<Person>();
-  BallotBox: Person[] = [];
-  ExitQueue = new Queue<Person>();
-  Voted: Person[] = []
+  BuildingQueue = signal<Person[]>([]);
+  RegisterDeskQueue = signal<Person[]>([]);
+  RegisterDesk = signal<Person[]>([]);
+  VotingBoothQueue = signal<Person[]>([]);
+  VotingBooth = signal<Person[]>([]);
+  BallotBoxQueue = signal<Person[]>([]);
+  BallotBox = signal<Person[]>([]);
+  ExitQueue = signal<Person[]>([]);
+  Voted = signal<Person[]>([]);
 
 
   runSimulation() {
@@ -63,36 +63,35 @@ export class SimulatorService {
 
   getNextTimePoint(){
     //TODO
-    return dayjs(this.currentTime()).add(60, 'second');
+    return dayjs(this.currentTime()).add(10, 'second');
   }
 
   processTimePoint(time: Dayjs){
-    if(this.canPersonMove(this.ExitQueue.front)){
-      var person = this.ExitQueue.dequeue();
-      person.TimeExited = time;
-      person.CurrentLocation = 'Exited';
-      this.Voted.push(person);
-    }
-
-    this.BallotBox.forEach(person => {
-      if(this.canPersonMove(person)){
-        this.BallotBox.splice(this.BallotBox.indexOf(person));
-        person.TimeFinishedBallotBox = time;
-        person.CurrentLocation = 'ExitQueue';
-        this.ExitQueue.enqueue(person);
-      }
-    });
-
-    if(this.canPersonMove(this.BallotBoxQueue.front)){
-      let person = this.BallotBoxQueue.dequeue();
-      person.TimeFinishedBallotBoxQueue = time;
-      person.CurrentLocation = 'BallotBox';
-      this.BallotBox.push(person);
-    }
-
-
+    this.#processQueue(this.ExitQueue, this.Voted, 'Exited', p => p.TimeExited = time);
+    this.#processQueue(this.BallotBox, this.ExitQueue, 'ExitQueue', p => p.TimeFinishedBallotBox = time);
+    this.#processQueue(this.BallotBoxQueue, this.BallotBox, 'BallotBox', p => p.TimeFinishedBallotBoxQueue = time);
+    this.#processQueue(this.VotingBooth, this.BallotBoxQueue, 'BallotBoxQueue', p => p.TimeFinishedVotingBooth = time);
+    this.#processQueue(this.VotingBoothQueue, this.VotingBooth, 'VotingBooth', p => p.TimeFinishedVotingBoothQueue = time);
+    this.#processQueue(this.RegisterDesk, this.VotingBoothQueue, 'VotingBoothQueue', p => p.TimeFinishedRegisterDesk = time);
+    this.#processQueue(this.RegisterDeskQueue, this.RegisterDesk, 'RegisterDesk', p => p.TimeFinishedRegisterDeskQueue = time);
+    this.#processQueue(this.BuildingQueue, this.RegisterDeskQueue, 'RegisterDeskQueue', p => p.TimeEnteredRegisterDeskQueue = time);
   }
 
+  #processQueue(currentLocationQueue: WritableSignal<Person[]>, nextLocationQueue: WritableSignal<Person[]>, nextLocation: StationLocation, updateTimeFunc: (person: Person) => void){
+    if(currentLocationQueue.length === 0){
+      return;
+    }
+
+    var nextPerson = front(currentLocationQueue);
+    if(nextPerson && this.canPersonMove(nextPerson)){
+      var person = dequeue(currentLocationQueue) as Person;
+      updateTimeFunc(person);
+      person.CurrentLocation = nextLocation;
+      enqueue(nextLocationQueue,person);
+    }
+  }
+
+  //TODO - currently all people move at same speed.  Need to generate random actual time each one spends at each location
   canPersonMove(person: Person){
     switch(person.CurrentLocation){
       case 'Arriving':          return this.totalInBuilding() < this.options().MaxInBuilding && this.#canPersonMove(this.RegisterDeskQueue.length,this.options().MaxQueueRegisterDesk, this.currentTime(), this.currentTime(), 0);
