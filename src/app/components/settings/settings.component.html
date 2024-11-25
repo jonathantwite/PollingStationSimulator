@@ -1,1 +1,81 @@
-<p>settings works!</p>
+<form [formGroup]="settingsForm">
+    <fieldset>
+        <legend>Polling Station</legend>
+        <div>
+            <label for="opening-time">Opening time: </label>
+            <input id="opening-time" type="time" [formControl]="settingsForm.controls.openingTime" />
+        </div>
+        <div>
+            <label for="closing-time">Closing time: </label>
+            <input id="closing-time" type="time" [formControl]="settingsForm.controls.closingTime" />
+        </div>
+        <div>
+            <label for="maxInBuilding">Maximum number of electorate allowed in building: </label>
+            <input id="maxInBuilding" type="number" [formControl]="settingsForm.controls.maxInBuilding" />
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Registration Desks</legend>
+        <div>
+            <label for="numberOfRegisterDesks">Number of desks: </label>
+            <input id="numberOfRegisterDesks" type="number" [formControl]="settingsForm.controls.numberOfRegisterDesks" />
+        </div>
+        <div>
+            <label for="maxQueueRegisterDesk">Maximum queue size: </label>
+            <input id="maxQueueRegisterDesk" type="number" [formControl]="settingsForm.controls.maxQueueRegisterDesk" />
+        </div>
+        @if(showAdvancedSettings()){
+            <div>
+                <label for="minTimeInRegisterDeskQueue">Time in seconds to walk from the door to the desks: </label>
+                <input id="minTimeInRegisterDeskQueue" type="number" [formControl]="settingsForm.controls.minTimeInRegisterDeskQueue" />
+            </div>
+            <div>
+                <label for="avgTimeAtRegisterDesk">Average time spent at a desk: </label>
+                <input id="avgTimeAtRegisterDesk" type="number" [formControl]="settingsForm.controls.avgTimeAtRegisterDesk" />
+            </div>
+        }
+    </fieldset>
+    <fieldset>
+        <legend>Voting Booths</legend>
+        <div>
+            <label for="numberOfVotingBooths">Number of voting booths: </label>
+            <input id="numberOfVotingBooths" type="number" [formControl]="settingsForm.controls.numberOfVotingBooths" />
+        </div>
+        @if(showAdvancedSettings()){
+            <div>
+                <label for="maxQueueVotingBooth">Maximum number of people allowed to wait: </label>
+                <input id="maxQueueVotingBooth" type="number" [formControl]="settingsForm.controls.maxQueueVotingBooth" />
+            </div>
+            <div>
+                <label for="minTimeInVotingBoothQueue">Time in seconds to walk from the desk to the booth: </label>
+                <input id="minTimeInVotingBoothQueue" type="number" [formControl]="settingsForm.controls.minTimeInVotingBoothQueue" />
+            </div>
+            <div>
+                <label for="avgTimeAtVotingBooth">Average time spent voting: </label>
+                <input id="avgTimeAtVotingBooth" type="number" [formControl]="settingsForm.controls.avgTimeAtVotingBooth" />
+            </div>
+        }
+    </fieldset>
+    <fieldset>
+        <legend>Ballot Boxes</legend>
+        <div>
+            <label for="numberOfBallotBoxes">Number of ballot boxes: </label>
+            <input id="numberOfBallotBoxes" type="number" [formControl]="settingsForm.controls.numberOfBallotBoxes" />
+        </div>
+        @if(showAdvancedSettings()){
+            <div>
+                <label for="maxQueueBallotBox">Maximum number of people allowed to wait: </label>
+                <input id="maxQueueBallotBox" type="number" [formControl]="settingsForm.controls.maxQueueBallotBox" />
+            </div>
+            <div>
+                <label for="minTimeInBallotBoxQueue">Time in seconds to walk from the booth to the ballot box: </label>
+                <input id="minTimeInBallotBoxQueue" type="number" [formControl]="settingsForm.controls.minTimeInBallotBoxQueue" />
+            </div>
+            <div>
+                <label for="avgTimeAtBallotBox">Average time spent at ballot box : </label>
+                <input id="avgTimeAtBallotBox" type="number" [formControl]="settingsForm.controls.avgTimeAtBallotBox" />
+            </div>
+        }
+    </fieldset>
+
+</form>
