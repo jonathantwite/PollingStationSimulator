@@ -1,4 +1,6 @@
-<form [formGroup]="settingsForm">
+<form [formGroup]="settingsForm" (ngSubmit)="runSimulation()">
+    <button (click)="toggleAdvancedSettings()">{{toggleAdvanceSettingsButtonText()}}</button>
+    <button type="submit" [disabled]="!settingsForm.valid">Run simulation</button>
     <fieldset>
         <legend>Polling Station</legend>
         <div>
@@ -72,10 +74,13 @@
                 <input id="minTimeInBallotBoxQueue" type="number" [formControl]="settingsForm.controls.minTimeInBallotBoxQueue" />
             </div>
             <div>
-                <label for="avgTimeAtBallotBox">Average time spent at ballot box : </label>
+                <label for="avgTimeAtBallotBox">Average time spent at ballot box: </label>
                 <input id="avgTimeAtBallotBox" type="number" [formControl]="settingsForm.controls.avgTimeAtBallotBox" />
+            </div>
+            <div>
+                <label for="minTimeInExitQueue">Time in seconds to walk from the ballot box to the exit: </label>
+                <input id="minTimeInExitQueue" type="number" [formControl]="settingsForm.controls.minTimeInExitQueue" />
             </div>
         }
     </fieldset>
-
 </form>

@@ -46,6 +46,9 @@ export class SimulatorService {
 
 
   runSimulation() {
+    console.log("Running Simulation");
+    console.log(this.options());
+    /*
     while (
       this.currentTime() < this.options().ClosingTime
       || this.RegisterDeskQueue.length > 0
@@ -57,6 +60,7 @@ export class SimulatorService {
         
         this.currentTime.set(this.getNextTimePoint());
       }
+        */
   }
 
   getNextTimePoint(){
