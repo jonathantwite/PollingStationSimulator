@@ -1,16 +1,17 @@
 import { Component, input } from '@angular/core';
-import { Person } from '../../models/Person';
+import { Person } from '../../../models/Person';
 import { TimeInPollingStationColorDirective } from '../directives/time-in-polling-station-color.directive';
 import dayjs from 'dayjs';
 
 @Component({
-  selector: 'app-queue',
+  selector: 'app-station',
   standalone: true,
   imports: [TimeInPollingStationColorDirective],
-  templateUrl: './queue.component.html',
-  styleUrl: './queue.component.scss'
+  templateUrl: './station.component.html',
+  styleUrl: './station.component.scss'
 })
-export class QueueComponent {
-  people = input.required<Person[]>()
+export class StationComponent {
+  numOfStations = input<number>();
+  people = input<Person[]>();
   currentTime = dayjs(new Date(2024,1,1,11,0,0));
 }

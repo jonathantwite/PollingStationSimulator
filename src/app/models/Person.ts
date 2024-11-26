@@ -3,6 +3,7 @@ import { StationLocation } from "../types/StationLocation";
 
 export class Person {
     CurrentLocation: StationLocation = 'Arriving';
+    TimeArrived?: Dayjs;
     TimeEnteredRegisterDeskQueue?: Dayjs;
     TimeFinishedRegisterDeskQueue?: Dayjs;
     TimeFinishedRegisterDesk?: Dayjs;

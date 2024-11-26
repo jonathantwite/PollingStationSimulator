@@ -1,5 +1,8 @@
+<p>{{snapshotCurrentTime().format('HH:mm:ss')}} - {{currentSnapshot().BuildingQueue.length}}</p>
+<button (click)="next()">Next</button>
+
 <div>
-    <!-- <div>{{openingTime | date:'HH:mm'}}</div>
-    <div>{{currentTime() | date:'HH:mm'}}</div>
-    <div>{{closingTime | date:'HH:mm'}}</div> -->
+    @for (entry of timeline(); track $index) {
+        <p>{{entry.Time.format('HH:mm')}} - {{entry.TotalInBuilding}}</p>
+    }
 </div>

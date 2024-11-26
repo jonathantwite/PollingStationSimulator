@@ -1,0 +1,11 @@
+<div class="people">
+    @for (person of people(); track $index) {
+        <div class="person" appTimeInPollingStationColor [timeEnteredPollingStation]="person.TimeEnteredRegisterDeskQueue" [currentTime]="currentTime"></div>
+    }
+</div>
+<div class="stations">
+    @for (station of [].constructor(numOfStations()); track $index) 
+    {
+        <div class="station"></div>
+    }
+</div>

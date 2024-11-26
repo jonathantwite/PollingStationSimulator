@@ -1,4 +1,4 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { SimulatorOptions } from '../types/SimulatorOptions';
 import { Person } from '../models/Person';
 import dayjs, { Dayjs } from 'dayjs';
@@ -35,6 +35,10 @@ export class SimulatorService {
   });
 
   simulation = signal<SimulationSnapshot[]>([]);
+  simulationRunning = signal(false);
+  simulationFinished = signal(false);
+  currentProgressTime = signal(this.options().OpeningTime);
+  currentProgress = computed(() => this.currentProgressTime().diff(this.options().OpeningTime, 'second') / this.options().ClosingTime.diff(this.options().OpeningTime, 'second'));
 
   runSimulation() {
     this.simulation.set([]);
@@ -49,37 +53,63 @@ export class SimulatorService {
     const BallotBox = new Queue<Person>();
     const ExitQueue = new Queue<Person>();
     const Voted = new Queue<Person>();
+
+    this.simulationFinished.set(false);
+    this.simulationRunning.set(true);
     
+    let count = 0;
+
     while (
-      currentTime < this.options().ClosingTime
+      ++count < 115 &&// 24*60*60 &&
+      (currentTime < this.options().ClosingTime
       || RegisterDeskQueue.length > 0
       || VotingBoothQueue.length > 0
       || BallotBoxQueue.length > 0
-      || ExitQueue.length > 0){
+      || ExitQueue.length > 0)){
         
-        var currentSnapshot = new SimulationSnapshot(
+        const previousSnapshot = this.simulation().length > 0 ? this.simulation()[this.simulation().length - 1] : undefined;
+
+        const currentSnapshot = new SimulationSnapshot(
           currentTime,
-          BuildingQueue,
-          RegisterDeskQueue,
-          RegisterDesk,
-          VotingBoothQueue,
-          VotingBooth,
-          BallotBoxQueue,
-          BallotBox,
-          ExitQueue,
-          Voted,
+          previousSnapshot ? new Queue<Person>(...this.deepCopyPerson(previousSnapshot.BuildingQueue.toArray())) : new Queue<Person>(),
+          previousSnapshot ? new Queue<Person>(...this.deepCopyPerson(previousSnapshot.RegisterDeskQueue.toArray())) : new Queue<Person>(),
+          previousSnapshot ? new Queue<Person>(...this.deepCopyPerson(previousSnapshot.RegisterDesk.toArray())) : new Queue<Person>(),
+          previousSnapshot ? new Queue<Person>(...this.deepCopyPerson(previousSnapshot.VotingBoothQueue.toArray())) : new Queue<Person>(),
+          previousSnapshot ? new Queue<Person>(...this.deepCopyPerson(previousSnapshot.VotingBooth.toArray())) : new Queue<Person>(),
+          previousSnapshot ? new Queue<Person>(...this.deepCopyPerson(previousSnapshot.BallotBoxQueue.toArray())) : new Queue<Person>(),
+          previousSnapshot ? new Queue<Person>(...this.deepCopyPerson(previousSnapshot.BallotBox.toArray())) : new Queue<Person>(),
+          previousSnapshot ? new Queue<Person>(...this.deepCopyPerson(previousSnapshot.ExitQueue.toArray())) : new Queue<Person>(),
+          previousSnapshot ? new Queue<Person>(...this.deepCopyPerson(previousSnapshot.Voted.toArray())) : new Queue<Person>(),
           this.options());
 
-        currentSnapshot.processTimePoint(currentTime);
-
-        this.simulation.update(allSnapshots => [...allSnapshots, currentSnapshot]);
+        console.log(currentSnapshot);
+          
+      this.currentProgressTime.set(currentTime);
+      currentSnapshot.processTimePoint(currentTime);
+      this.simulation.update(allSnapshots => [...allSnapshots, currentSnapshot]);
         
-        currentTime = this.getNextTimePoint(currentTime);
-      }
+      currentTime = currentSnapshot.getNextTimePoint(currentTime);
+    }
+    this.simulationRunning.set(false);
+    this.simulationFinished.set(true);
+
   }
 
-  getNextTimePoint(currentTime: Dayjs){
-    //TODO - something clever to ignore time when nothing happens
-    return currentTime.add(1, 'second');
+  deepCopyPerson(array: Person[]){
+    const copy = JSON.parse(JSON.stringify(array)) as Person[];
+    copy.forEach(p => {
+      p.TimeArrived = p.TimeArrived ? dayjs(p.TimeArrived) : undefined;
+      p.TimeEnteredRegisterDeskQueue = p.TimeEnteredRegisterDeskQueue ? dayjs(p.TimeEnteredRegisterDeskQueue) : undefined;
+      p.TimeFinishedRegisterDeskQueue = p.TimeFinishedRegisterDeskQueue ? dayjs(p.TimeFinishedRegisterDeskQueue) : undefined;
+      p.TimeFinishedRegisterDesk = p.TimeFinishedRegisterDesk ? dayjs(p.TimeFinishedRegisterDesk) : undefined;
+      p.TimeFinishedVotingBoothQueue = p.TimeFinishedVotingBoothQueue ? dayjs(p.TimeFinishedVotingBoothQueue) : undefined;
+      p.TimeFinishedVotingBooth = p.TimeFinishedVotingBooth ? dayjs(p.TimeFinishedVotingBooth) : undefined;
+      p.TimeFinishedBallotBoxQueue = p.TimeFinishedBallotBoxQueue ? dayjs(p.TimeFinishedBallotBoxQueue) : undefined;
+      p.TimeFinishedBallotBox = p.TimeFinishedBallotBox ? dayjs(p.TimeFinishedBallotBox) : undefined;
+      p.TimeExited = p.TimeExited ? dayjs(p.TimeExited) : undefined;
+    });
+
+    return copy;
   }
+
 }

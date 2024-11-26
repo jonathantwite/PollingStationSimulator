@@ -1,3 +1,7 @@
+@if(simulationRunning()){
+  <app-simulation-running />
+}
+
 
 <main style="
   display: grid;
@@ -7,7 +11,12 @@
   ">
 
   <app-header style="grid-area: header;" />
-  <app-map  style="grid-area: map;"/>
+  @if(showSimulation()) {
+    <app-map  style="grid-area: map;"/>
+  }
+  @else {
+    <app-intro />
+  }
   <app-settings style="grid-area: settings;" />
   <app-stats style="grid-area: stats;" />
 </main>
@@ -15,3 +24,4 @@
 @if (showHelpPanel()) {
   <app-help />
 }
+

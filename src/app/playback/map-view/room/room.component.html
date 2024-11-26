@@ -5,5 +5,5 @@
 <app-queue class="queue" [people]="queue()" />
 
 @if (!!useStation()) {
-    <app-station class="station" [numOfStations]="numOfStations()" />
+    <app-station class="station" [numOfStations]="numOfStations()" [people]="station()" />
 }

@@ -1,5 +1,5 @@
 <form [formGroup]="settingsForm" (ngSubmit)="runSimulation()">
-    <button (click)="toggleAdvancedSettings()">{{toggleAdvanceSettingsButtonText()}}</button>
+    <button (click)="toggleAdvancedSettings(); false">{{toggleAdvanceSettingsButtonText()}}</button>
     <button type="submit" [disabled]="!settingsForm.valid">Run simulation</button>
     <fieldset>
         <legend>Polling Station</legend>

@@ -1,0 +1,25 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.stations {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.station {
+    width: 30px;
+    height: 30px;
+    border: 5px solid black;
+}
+
+.people {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
