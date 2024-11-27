@@ -14,4 +14,7 @@ export class PlaybackService {
   simulationSnapshot = computed(() => this.simulationService.simulation()[this.snapshotIndex()]);
   options = this.simulationService.options.asReadonly();
   simulationReady = computed(() => this.simulationService.simulation().length > 0 && this.simulationService.simulationFinished());
+
+  hasNext = computed(() => this.snapshotIndex() < this.simulationService.simulation().length);
+  hasPrevious = computed(() => this.snapshotIndex() > 1);
 }

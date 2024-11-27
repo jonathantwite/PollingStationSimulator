@@ -23,17 +23,17 @@ export class TimelineComponent {
   currentSnapshot = this.playbackService.simulationSnapshot;
   snapshotCurrentTime = computed(() => this.currentSnapshot().CurrentTime);//this.playbackService.currentTime;
   next = () => this.playbackService.snapshotIndex.update(i => ++i);
+  previous = () => this.playbackService.snapshotIndex.update(i => --i);
+  hasNext = this.playbackService.hasNext;
+  hasPrevious = this.playbackService.hasPrevious;
 
   timeline = computed(() => {
     let time = this.openingTime.minute(0).second(0);
     const output: TimeLineEntry[] = [];
 
     while(time <= this.closingTime){
-      //console.log(time.format("HH:mm"));
-      //console.log(this.simulator.simulation().filter(snapshot => snapshot.CurrentTime.hour() === time.hour()));
-      //console.log(this.simulator.simulation().filter(snapshot => snapshot.CurrentTime.hour() === time.hour()).map(sn => sn.totalInBuilding()));
-
-      output.push(new TimeLineEntry(time, Math.max(...this.simulator.simulation().filter(snapshot => snapshot.CurrentTime.hour() === time.hour()).map(sn => sn.totalInBuilding()))));
+      const entries = this.simulator.simulation().filter(snapshot => snapshot.CurrentTime.hour() === time.hour());
+      output.push(new TimeLineEntry(time, Math.max(...entries.map(sn => sn.totalInBuilding())), Math.max(...entries.map(sn => sn.BuildingQueue.length))));
       time = time.add(1, 'hour');
     }
 

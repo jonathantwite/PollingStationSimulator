@@ -75,7 +75,7 @@ export class SimulatorService {
     let count = 0;
 
     while (
-      ++count < 115 &&// 24*60*60 &&
+      ++count < 24*60*60 &&
       (currentTime < this.options().ClosingTime
       || AllQueues.RegisterDeskQueue.length > 0
       || AllQueues.RegisterDesk.length > 0
