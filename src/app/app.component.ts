@@ -4,7 +4,7 @@ import { HeaderComponent } from "./layout-components/header/header.component";
 import { MapComponent } from "./playback/map-view/map/map.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { HelpComponent } from './layout-components/help/help.component';
-import { StatsComponent } from './stats/stats.component';
+import { StatsComponent } from './statistics/stats/stats.component';
 import { HelpService } from './services/help.service';
 import { PlaybackService } from './playback/services/playback.service';
 import { IntroComponent } from './playback/intro/intro.component';

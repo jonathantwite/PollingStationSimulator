@@ -12,4 +12,10 @@ export class Person {
     TimeFinishedBallotBoxQueue?: Dayjs;
     TimeFinishedBallotBox?: Dayjs;
     TimeExited?: Dayjs;
+
+    TotalSecondsUntilVoted() {
+        return (this.TimeArrived !== undefined && this.TimeFinishedBallotBox !== undefined
+            ? this.TimeFinishedBallotBox.diff(this.TimeArrived, 'seconds') : undefined
+        );
+    }
 }
