@@ -12,11 +12,10 @@ import { SimulatorService } from './services/simulator.service';
 import { SimulationRunningComponent } from './layout-components/simulation-running/simulation-running.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, HeaderComponent, MapComponent, SettingsComponent, StatsComponent, HelpComponent, IntroComponent, SimulationRunningComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [RouterOutlet, HeaderComponent, MapComponent, SettingsComponent, StatsComponent, HelpComponent, IntroComponent, SimulationRunningComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
   private helpService = inject(HelpService);

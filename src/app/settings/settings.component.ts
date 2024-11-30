@@ -4,11 +4,10 @@ import { SimulatorService } from '../services/simulator.service';
 import dayjs from 'dayjs';
 
 @Component({
-  selector: 'app-settings',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './settings.component.html',
-  styleUrl: './settings.component.scss'
+    selector: 'app-settings',
+    imports: [ReactiveFormsModule],
+    templateUrl: './settings.component.html',
+    styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
   private formBuilder = inject(FormBuilder);

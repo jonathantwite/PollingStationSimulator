@@ -4,11 +4,10 @@ import { TimeInPollingStationColorDirective } from '../directives/time-in-pollin
 import dayjs from 'dayjs';
 
 @Component({
-  selector: 'app-queue',
-  standalone: true,
-  imports: [TimeInPollingStationColorDirective],
-  templateUrl: './queue.component.html',
-  styleUrl: './queue.component.scss'
+    selector: 'app-queue',
+    imports: [TimeInPollingStationColorDirective],
+    templateUrl: './queue.component.html',
+    styleUrl: './queue.component.scss'
 })
 export class QueueComponent {
   people = input.required<Person[]>();

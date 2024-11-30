@@ -5,11 +5,10 @@ import { TimeLineEntry } from '../../models/TimeLineEntry';
 import { PlaybackService } from '../services/playback.service';
 
 @Component({
-  selector: 'app-timeline',
-  standalone: true,
-  imports: [DatePipe],
-  templateUrl: './timeline.component.html',
-  styleUrl: './timeline.component.scss'
+    selector: 'app-timeline',
+    imports: [DatePipe],
+    templateUrl: './timeline.component.html',
+    styleUrl: './timeline.component.scss'
 })
 export class TimelineComponent {
   private simulator = inject(SimulatorService);

@@ -2,11 +2,10 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { HelpService } from '../../services/help.service';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+    selector: 'app-header',
+    imports: [],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   helpService = inject(HelpService);

@@ -4,11 +4,10 @@ import { TimeInPollingStationColorDirective } from '../directives/time-in-pollin
 import dayjs from 'dayjs';
 
 @Component({
-  selector: 'app-station',
-  standalone: true,
-  imports: [TimeInPollingStationColorDirective],
-  templateUrl: './station.component.html',
-  styleUrl: './station.component.scss'
+    selector: 'app-station',
+    imports: [TimeInPollingStationColorDirective],
+    templateUrl: './station.component.html',
+    styleUrl: './station.component.scss'
 })
 export class StationComponent {
   numOfStations = input<number>();

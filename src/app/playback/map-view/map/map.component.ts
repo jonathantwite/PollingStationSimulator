@@ -6,11 +6,10 @@ import { JsonPipe } from '@angular/common';
 import { SimulatorService } from '../../../services/simulator.service';
 
 @Component({
-  selector: 'app-map',
-  standalone: true,
-  imports: [RoomComponent, TimelineComponent, JsonPipe],
-  templateUrl: './map.component.html',
-  styleUrl: './map.component.scss'
+    selector: 'app-map',
+    imports: [RoomComponent, TimelineComponent, JsonPipe],
+    templateUrl: './map.component.html',
+    styleUrl: './map.component.scss'
 })
 export class MapComponent {
   private simulator = inject(PlaybackService);

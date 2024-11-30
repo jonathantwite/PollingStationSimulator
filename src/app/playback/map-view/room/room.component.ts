@@ -4,11 +4,10 @@ import { StationComponent } from "../station/station.component";
 import { Person } from '../../../models/Person';
 
 @Component({
-  selector: 'app-room',
-  standalone: true,
-  imports: [QueueComponent, StationComponent],
-  templateUrl: './room.component.html',
-  styleUrl: './room.component.scss'
+    selector: 'app-room',
+    imports: [QueueComponent, StationComponent],
+    templateUrl: './room.component.html',
+    styleUrl: './room.component.scss'
 })
 export class RoomComponent {
   roomTitle = input.required<string>();
