@@ -25,7 +25,7 @@ type AllQueues = {
 export class SimulatorService {
 
   constructor() { }
-
+  
   options = signal<SimulatorOptions>({
     VisitProfile: [],
     OpeningTime: dayjs(new Date(2024,1,1,7,0,0,0)),
