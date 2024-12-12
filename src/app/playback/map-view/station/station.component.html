@@ -1,6 +1,6 @@
 <div class="people">
     @for (person of people(); track $index) {
-        <div class="person" appTimeInPollingStationColor [timeEnteredPollingStation]="person.TimeEnteredRegisterDeskQueue" [currentTime]="currentTime"></div>
+        <div class="person" appTimeInPollingStationColor [timeArrived]="person.TimeArrived" [currentTime]="currentTime()"></div>
     }
 </div>
 <div class="stations">

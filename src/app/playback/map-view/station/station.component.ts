@@ -1,7 +1,8 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Person } from '../../../models/Person';
 import { TimeInPollingStationColorDirective } from '../directives/time-in-polling-station-color.directive';
 import dayjs from 'dayjs';
+import { PlaybackService } from '../../services/playback.service';
 
 @Component({
     selector: 'app-station',
@@ -10,7 +11,8 @@ import dayjs from 'dayjs';
     styleUrl: './station.component.scss'
 })
 export class StationComponent {
+  private playbackService = inject(PlaybackService);
   numOfStations = input<number>();
   people = input<Person[]>();
-  currentTime = dayjs(new Date(2024,1,1,11,0,0));
+  currentTime = this.playbackService.currentTime;
 }
