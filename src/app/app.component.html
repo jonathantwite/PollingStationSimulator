@@ -18,7 +18,9 @@
     <app-intro />
   }
   <app-settings style="grid-area: settings;" />
-  <app-stats style="grid-area: stats;" />
+  @if(showSimulation()){
+    <app-stats style="grid-area: stats;" />
+  }
 </main>
 
 @if (showHelpPanel()) {

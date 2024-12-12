@@ -6,7 +6,6 @@ import { PlaybackService } from '../services/playback.service';
 
 @Component({
     selector: 'app-timeline',
-    imports: [DatePipe],
     templateUrl: './timeline.component.html',
     styleUrl: './timeline.component.scss'
 })
