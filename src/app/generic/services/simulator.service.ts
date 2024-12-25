@@ -5,7 +5,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { StationLocation } from '../types/StationLocation';
 import { SimulationSnapshot } from '../models/SimulationSnapshot';
 import { Queue } from 'queue-typescript';
-import { deepCopyPerson } from '../helpers/modelHelpers/PeopleHelpers';
+import { deepCopyPerson } from '../../helpers/modelHelpers/PeopleHelpers';
 
 type AllQueues = {
   BuildingQueue: Queue<Person>,

@@ -1,5 +1,5 @@
 import { computed, inject, Injectable } from '@angular/core';
-import { SimulatorService } from '../../services/simulator.service';
+import { SimulatorService } from '../../generic/services/simulator.service';
 
 @Injectable({
   providedIn: 'root'

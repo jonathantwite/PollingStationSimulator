@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Person } from "../../models/Person";
+import { Person } from "../../generic/models/Person";
 
 function deepCopyPerson(array: Person[]){
   const copy = JSON.parse(JSON.stringify(array)) as Person[];

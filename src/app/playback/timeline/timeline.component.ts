@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject } from '@angular/core';
-import { SimulatorService } from '../../services/simulator.service';
+import { SimulatorService } from '../../generic/services/simulator.service';
 import { DatePipe } from '@angular/common';
-import { TimeLineEntry } from '../../models/TimeLineEntry';
+import { TimeLineEntry } from '../../generic/models/TimeLineEntry';
 import { PlaybackService } from '../services/playback.service';
 
 @Component({

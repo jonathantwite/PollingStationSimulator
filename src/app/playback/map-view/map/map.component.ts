@@ -3,7 +3,7 @@ import { RoomComponent } from "../room/room.component";
 import { TimelineComponent } from "../../timeline/timeline.component";
 import { PlaybackService } from '../../services/playback.service';
 import { JsonPipe } from '@angular/common';
-import { SimulatorService } from '../../../services/simulator.service';
+import { SimulatorService } from '../../../generic/services/simulator.service';
 
 @Component({
     selector: 'app-map',

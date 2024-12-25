@@ -5,10 +5,10 @@ import { MapComponent } from "./playback/map-view/map/map.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { HelpComponent } from './layout-components/help/help.component';
 import { StatsComponent } from './statistics/stats/stats.component';
-import { HelpService } from './services/help.service';
+import { HelpService } from './generic/services/help.service';
 import { PlaybackService } from './playback/services/playback.service';
 import { IntroComponent } from './playback/intro/intro.component';
-import { SimulatorService } from './services/simulator.service';
+import { SimulatorService } from './generic/services/simulator.service';
 import { SimulationRunningComponent } from './layout-components/simulation-running/simulation-running.component';
 
 @Component({

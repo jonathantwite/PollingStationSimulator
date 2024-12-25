@@ -2,12 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
 
 import { StatsService } from './stats.service';
-import { SimulationSnapshot } from '../../models/SimulationSnapshot';
+import { SimulationSnapshot } from '../../generic/models/SimulationSnapshot';
 import dayjs from 'dayjs';
 import { Queue } from 'queue-typescript';
-import { Person } from '../../models/Person';
-import { SimulatorOptions } from "../../types/SimulatorOptions";
-import { SimulatorService } from '../../services/simulator.service';
+import { Person } from '../../generic/models/Person';
+import { SimulatorOptions } from "../../generic/types/SimulatorOptions";
+import { SimulatorService } from '../../generic/services/simulator.service';
 
 fdescribe('StatsService', () => {
   

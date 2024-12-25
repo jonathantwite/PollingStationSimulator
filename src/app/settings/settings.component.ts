@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SimulatorService } from '../services/simulator.service';
+import { SimulatorService } from '../generic/services/simulator.service';
 import dayjs from 'dayjs';
 
 @Component({

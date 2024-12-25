@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { QueueComponent } from "../queue/queue.component";
 import { StationComponent } from "../station/station.component";
-import { Person } from '../../../models/Person';
+import { Person } from '../../../generic/models/Person';
 
 @Component({
     selector: 'app-room',

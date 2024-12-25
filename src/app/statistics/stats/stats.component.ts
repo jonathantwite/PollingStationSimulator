@@ -1,7 +1,7 @@
 import { Component, computed, inject, ViewChild } from '@angular/core';
 import { StatsService } from '../services/stats.service';
 import { ApexAxisChartSeries, ChartComponent, ChartType, NgApexchartsModule } from 'ng-apexcharts';
-import { SimulatorService } from '../../services/simulator.service';
+import { SimulatorService } from '../../generic/services/simulator.service';
 
 type ChartOptions = {
   series: NonNullable<ApexAxisChartSeries>;
