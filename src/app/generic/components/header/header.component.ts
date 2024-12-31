@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { HelpService } from '../../generic/services/help.service';
+import { HelpService } from '../../services/help.service';
 
 @Component({
     selector: 'app-header',

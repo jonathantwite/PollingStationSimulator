@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { SimulatorService } from '../../generic/services/simulator.service';
+import { SimulatorService } from '../../../simulator/services/simulator.service';
 
 @Component({
     selector: 'app-simulation-running',

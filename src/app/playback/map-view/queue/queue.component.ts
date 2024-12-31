@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { Person } from '../../../generic/models/Person';
+import { Person } from '../../../simulator/models/Person';
 import { TimeInPollingStationColorDirective } from '../directives/time-in-polling-station-color.directive';
 import { PlaybackService } from '../../services/playback.service';
 
@@ -12,6 +12,6 @@ import { PlaybackService } from '../../services/playback.service';
 export class QueueComponent {
   private playbackService = inject(PlaybackService);
 
-  people = input.required<Person[]>();
+  people = input.required<Person[]|undefined>();
   currentTime = this.playbackService.currentTime;
 }

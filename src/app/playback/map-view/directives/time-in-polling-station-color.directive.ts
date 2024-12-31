@@ -1,5 +1,5 @@
 import { Directive, ElementRef, input, OnChanges, SimpleChanges } from '@angular/core';
-import { Time } from '../../../generic/models/Time';
+import { Time } from '../../../simulator/models/Time';
 
 @Directive({
   selector: '[appTimeInPollingStationColor]',

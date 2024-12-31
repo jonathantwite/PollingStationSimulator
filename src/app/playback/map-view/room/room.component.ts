@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { QueueComponent } from "../queue/queue.component";
 import { StationComponent } from "../station/station.component";
-import { Person } from '../../../generic/models/Person';
+import { Person } from '../../../simulator/models/Person';
 
 @Component({
     selector: 'app-room',
@@ -11,7 +11,7 @@ import { Person } from '../../../generic/models/Person';
 })
 export class RoomComponent {
   roomTitle = input.required<string>();
-  queue = input.required<Person[]>();
+  queue = input.required<Person[]|undefined>();
   station = input<Person[]>();
   useStation = input(true);
   numOfStations = input<number>();

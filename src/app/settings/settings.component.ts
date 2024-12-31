@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SimulatorService } from '../generic/services/simulator.service';
-import { Time } from '../generic/models/Time';
+import { SimulatorService } from '../simulator/services/simulator.service';
+import { Time } from '../simulator/models/Time';
 
 @Component({
     selector: 'app-settings',

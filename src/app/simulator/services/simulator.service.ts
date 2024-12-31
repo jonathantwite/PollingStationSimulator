@@ -5,6 +5,7 @@ import { SimulationSnapshot } from '../models/SimulationSnapshot';
 import { Time } from '../models/Time';
 import { Queue } from 'queue-typescript';
 import { Person } from '../models/Person';
+import { Simulation } from '../models/Simulation';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,8 @@ export class SimulatorService {
     MinTimeInExitQueue: 60
   });
 
-  simulation = signal<SimulationSnapshot[]>([]);
+  simulations = signal<Simulation[]>([]);
+  simulation = computed(() => this.simulations().length > 0 ? this.simulations()[0] : undefined);
   simulationRunning = signal(false);
   simulationFinished = signal(false);
   currentProgressTime = signal(this.options().OpeningTime);
@@ -44,7 +46,6 @@ export class SimulatorService {
     this.simulationFinished.set(false);
     this.simulationRunning.set(true);
 
-    this.simulation.set([]);
     if (typeof Worker !== 'undefined') {
       // Create a new
       const worker = new Worker(new URL('./../../app.worker', import.meta.url));
@@ -52,23 +53,10 @@ export class SimulatorService {
       worker.postMessage(options);
       worker.onmessage = ev => {
         console.log(ev); 
-        const parsedData = parse(ev.data) as any[];
-        const simulation: SimulationSnapshot[] = [];
-        parsedData.forEach(ss => simulation.push(new SimulationSnapshot(
-          new Time(ss.CurrentTime.hour, ss.CurrentTime.minutes, ss.CurrentTime.seconds),
-          new Queue<Person>(ss.BuildingQueue),
-          new Queue<Person>(ss.RegisterDeskQueue),
-          new Queue<Person>(ss.RegisterDesk),
-          new Queue<Person>(ss.VotingBoothQueue),
-          new Queue<Person>(ss.VotingBooth),
-          new Queue<Person>(ss.BallotBoxQueue),
-          new Queue<Person>(ss.BallotBox),
-          new Queue<Person>(ss.ExitQueue),
-          new Queue<Person>(ss.Voted),
-          ss.options
-        )));
+        const simulation: Simulation = Simulation.fromJsonSnapshots(this.options(), ev.data);
+        
         console.log(simulation);
-        this.simulation.set(simulation);
+        this.simulations.update(s => [...s, simulation]);
         this.simulationRunning.set(false);
         this.simulationFinished.set(true);
         console.log("Finished");

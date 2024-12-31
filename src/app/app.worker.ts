@@ -1,8 +1,8 @@
 /// <reference lib="webworker" />
 import { parse, stringify } from 'flatted';
-import { Time } from './generic/models/Time';
-import { runSimulation } from './generic/services/simulation-runner';
-import { SimulatorOptions } from './generic/types/SimulatorOptions';
+import { Time } from './simulator/models/Time';
+import { runSimulation } from './simulator/services/simulation-runner';
+import { SimulatorOptions } from './simulator/types/SimulatorOptions';
 
 addEventListener('message', ({ data }) => {
   const options = parse(data) as SimulatorOptions;
