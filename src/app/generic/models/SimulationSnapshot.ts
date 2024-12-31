@@ -15,7 +15,7 @@ export class SimulationSnapshot {
     public BallotBox: Queue<Person>,
     public ExitQueue: Queue<Person>,
     public Voted: Queue<Person>,
-    private options: SimulatorOptions) {}
+    public options: SimulatorOptions) {}
   
   totalInBuilding = () => this.RegisterDeskQueue.length + this.RegisterDesk.length + this.VotingBoothQueue.length + this.VotingBooth.length + this.BallotBoxQueue.length + this.BallotBox.length + this.ExitQueue.length;
 }

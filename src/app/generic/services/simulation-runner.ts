@@ -34,9 +34,6 @@ function runSimulation(options: SimulatorOptions) {
       ExitQueue: new Queue<Person>(),
       Voted: new Queue<Person>()
     }
-
-    //this.simulationFinished.set(false);
-    //this.simulationRunning.set(true);
     
     let count = 0;
 
@@ -73,10 +70,9 @@ function runSimulation(options: SimulatorOptions) {
         
       currentTime = getNextTimePoint(currentTime);
     }
-    //simulationRunning.set(false);
-    //simulationFinished.set(true);
 
-  }
+    return simulation;
+  };
 
   function getNextTimePoint(
     currentTime: Time

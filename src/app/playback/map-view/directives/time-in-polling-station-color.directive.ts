@@ -13,7 +13,7 @@ export class TimeInPollingStationColorDirective implements OnChanges {
   timeArrived = input<Time>()
   
   ngOnChanges(changes: SimpleChanges): void {
-    if(!this.timeArrived || !this.currentTime){
+    if(!this.timeArrived() || !this.currentTime()){
       return;
     }
     let timeInMinutes = this.currentTime()!.diff(this.timeArrived() as Time, 'Minutes');
