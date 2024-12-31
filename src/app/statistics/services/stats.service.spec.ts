@@ -3,11 +3,11 @@ import { computed, inject, Injectable, signal, WritableSignal } from '@angular/c
 
 import { StatsService } from './stats.service';
 import { SimulationSnapshot } from '../../generic/models/SimulationSnapshot';
-import dayjs from 'dayjs';
 import { Queue } from 'queue-typescript';
 import { Person } from '../../generic/models/Person';
 import { SimulatorOptions } from "../../generic/types/SimulatorOptions";
 import { SimulatorService } from '../../generic/services/simulator.service';
+import { Time } from '../../generic/models/Time';
 
 fdescribe('StatsService', () => {
   
@@ -55,8 +55,8 @@ fdescribe('StatsService', () => {
     beforeEach(() => {
       const options:SimulatorOptions = {
         VisitProfile: [],
-        OpeningTime: dayjs(new Date(2024,1,1,7,0,0,0)),
-        ClosingTime: dayjs(new Date(2024,1,1,22,0,0,0)),
+        OpeningTime: new Time(7,0,0),
+        ClosingTime: new Time(22,0,0),
         NumberOfRegisterDesks: 2,
         NumberOfVotingBooths: 4,
         NumberOfBallotBoxes: 1,
@@ -81,8 +81,8 @@ fdescribe('StatsService', () => {
       
       // Time arrived
       const t1 = options.OpeningTime;
-      const t2 = options.OpeningTime.add(1, 'hour');
-      const t3 = options.OpeningTime.add(2, 'hour');
+      const t2 = options.OpeningTime.add(1, 'Hours');
+      const t3 = options.OpeningTime.add(2, 'Hours');
 
       const p1 = new Person();
       const p2 = new Person();
@@ -90,15 +90,15 @@ fdescribe('StatsService', () => {
 
       p1.CurrentLocation = 'Exited';
       p1.TimeArrived = t1;
-      p1.TimeFinishedBallotBox = t1.add(dt1, 'minutes');
+      p1.TimeFinishedBallotBox = t1.add(dt1, 'Minutes');
       
       p2.CurrentLocation = 'Exited';
       p2.TimeArrived = t2;
-      p2.TimeFinishedBallotBox = t2.add(dt2, 'minutes');
+      p2.TimeFinishedBallotBox = t2.add(dt2, 'Minutes');
       
       p3.CurrentLocation = 'Exited';
       p3.TimeArrived = t3;
-      p3.TimeFinishedBallotBox = t3.add(dt3, 'minutes');
+      p3.TimeFinishedBallotBox = t3.add(dt3, 'Minutes');
 
       const simulationOutput: SimulationSnapshot[] = [
         new SimulationSnapshot(

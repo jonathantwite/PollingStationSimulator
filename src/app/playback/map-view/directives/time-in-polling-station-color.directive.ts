@@ -1,5 +1,5 @@
 import { Directive, ElementRef, input, OnChanges, SimpleChanges } from '@angular/core';
-import { Dayjs } from 'dayjs';
+import { Time } from '../../../generic/models/Time';
 
 @Directive({
   selector: '[appTimeInPollingStationColor]',
@@ -9,14 +9,14 @@ export class TimeInPollingStationColorDirective implements OnChanges {
   
   constructor(private el: ElementRef) {}
 
-  currentTime = input<Dayjs>()
-  timeArrived = input<Dayjs>()
+  currentTime = input<Time>()
+  timeArrived = input<Time>()
   
   ngOnChanges(changes: SimpleChanges): void {
     if(!this.timeArrived || !this.currentTime){
       return;
     }
-    let timeInMinutes = this.currentTime()!.diff(this.timeArrived(), 'minute');
+    let timeInMinutes = this.currentTime()!.diff(this.timeArrived() as Time, 'Minutes');
     
     console.log(this.timeArrived(), this.currentTime(), timeInMinutes);
     

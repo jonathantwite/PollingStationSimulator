@@ -1,9 +1,9 @@
 <button (click)="previous()" [disabled]="!hasPrevious()">Previous</button>
-<p style="display: inline;">{{snapshotCurrentTime().format('HH:mm:ss')}} - {{currentSnapshot().RegisterDesk.length}}</p>
+<p style="display: inline;">{{snapshotCurrentTime().displays()}} - {{currentSnapshot().RegisterDesk.length}}</p>
 <button (click)="next()" [disabled]="!hasNext()">Next</button>
 
 <div>
     @for (entry of timeline(); track $index) {
-        <span>{{entry.Time.format('HH:mm')}} - {{entry.TotalInBuilding}}/{{entry.BuildingQueueLength}}</span>
+        <span>{{entry.Time.display()}} - {{entry.TotalInBuilding}}/{{entry.BuildingQueueLength}}</span>
     }
 </div>

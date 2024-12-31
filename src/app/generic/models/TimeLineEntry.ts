@@ -1,8 +1,8 @@
-import { Dayjs } from "dayjs";
+import { Time } from "./Time";
 
 export class TimeLineEntry {
     constructor(
-        public Time: Dayjs,
+        public Time: Time,
         public TotalInBuilding: number,
         public BuildingQueueLength: number
     ) {}

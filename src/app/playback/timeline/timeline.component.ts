@@ -1,8 +1,8 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { SimulatorService } from '../../generic/services/simulator.service';
-import { DatePipe } from '@angular/common';
 import { TimeLineEntry } from '../../generic/models/TimeLineEntry';
 import { PlaybackService } from '../services/playback.service';
+import { Time } from '../../generic/models/Time';
 
 @Component({
     selector: 'app-timeline',
@@ -26,13 +26,13 @@ export class TimelineComponent {
   hasPrevious = this.playbackService.hasPrevious;
 
   timeline = computed(() => {
-    let time = this.openingTime.minute(0).second(0);
+    let time = new Time(this.openingTime.hour, 0, 0);
     const output: TimeLineEntry[] = [];
 
-    while(time <= this.closingTime){
-      const entries = this.simulator.simulation().filter(snapshot => snapshot.CurrentTime.hour() === time.hour());
+    while(time.isLessThanOrEqualTo(this.closingTime)){
+      const entries = this.simulator.simulation().filter(snapshot => snapshot.CurrentTime.hour === time.hour);
       output.push(new TimeLineEntry(time, Math.max(...entries.map(sn => sn.totalInBuilding())), Math.max(...entries.map(sn => sn.BuildingQueue.length))));
-      time = time.add(1, 'hour');
+      time = time.add(1, 'Hours');
     }
 
     return output;

@@ -1,7 +1,6 @@
 import { Component, inject, input } from '@angular/core';
 import { Person } from '../../../generic/models/Person';
 import { TimeInPollingStationColorDirective } from '../directives/time-in-polling-station-color.directive';
-import dayjs from 'dayjs';
 import { PlaybackService } from '../../services/playback.service';
 
 @Component({

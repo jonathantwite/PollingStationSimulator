@@ -1,19 +1,19 @@
-import { Dayjs } from "dayjs";
 import { StationLocation } from "../types/StationLocation";
+import { Time } from "./Time";
 
 export class Person {
     CurrentLocation: StationLocation = 'Arriving';
-    TimeArrived?: Dayjs;
-    TimeEnteredRegisterDeskQueue?: Dayjs;
-    TimeFinishedRegisterDeskQueue?: Dayjs;
-    TimeFinishedRegisterDesk?: Dayjs;
-    TimeFinishedVotingBoothQueue?: Dayjs;
-    TimeFinishedVotingBooth?: Dayjs
-    TimeFinishedBallotBoxQueue?: Dayjs;
-    TimeFinishedBallotBox?: Dayjs;
-    TimeExited?: Dayjs;
+    TimeArrived?: Time;
+    TimeEnteredRegisterDeskQueue?: Time;
+    TimeFinishedRegisterDeskQueue?: Time;
+    TimeFinishedRegisterDesk?: Time;
+    TimeFinishedVotingBoothQueue?: Time;
+    TimeFinishedVotingBooth?: Time
+    TimeFinishedBallotBoxQueue?: Time;
+    TimeFinishedBallotBox?: Time;
+    TimeExited?: Time;
 
     TotalSecondsUntilVoted = () =>
         this.TimeArrived !== undefined && this.TimeFinishedBallotBox !== undefined
-            ? this.TimeFinishedBallotBox.diff(this.TimeArrived, 'seconds') : undefined;
+            ? this.TimeFinishedBallotBox.diff(this.TimeArrived, 'Seconds') : undefined;
 }

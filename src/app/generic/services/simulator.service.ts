@@ -1,11 +1,11 @@
 import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { SimulatorOptions } from '../types/SimulatorOptions';
 import { Person } from '../models/Person';
-import dayjs, { Dayjs } from 'dayjs';
 import { StationLocation } from '../types/StationLocation';
 import { SimulationSnapshot } from '../models/SimulationSnapshot';
 import { Queue } from 'queue-typescript';
 import { deepCopyPerson } from '../../helpers/modelHelpers/PeopleHelpers';
+import { Time } from '../models/Time';
 
 type AllQueues = {
   BuildingQueue: Queue<Person>,
@@ -28,8 +28,8 @@ export class SimulatorService {
   
   options = signal<SimulatorOptions>({
     VisitProfile: [],
-    OpeningTime: dayjs(new Date(2024,1,1,7,0,0,0)),
-    ClosingTime: dayjs(new Date(2024,1,1,22,0,0,0)),
+    OpeningTime: new Time(7,0,0),
+    ClosingTime: new Time(22,0,0),
     NumberOfRegisterDesks: 2,
     NumberOfVotingBooths: 4,
     NumberOfBallotBoxes: 1,
@@ -50,7 +50,7 @@ export class SimulatorService {
   simulationRunning = signal(false);
   simulationFinished = signal(false);
   currentProgressTime = signal(this.options().OpeningTime);
-  currentProgress = computed(() => this.currentProgressTime().diff(this.options().OpeningTime, 'second') / this.options().ClosingTime.diff(this.options().OpeningTime, 'second'));
+  currentProgress = computed(() => this.currentProgressTime().diff(this.options().OpeningTime, 'Seconds') / this.options().ClosingTime.diff(this.options().OpeningTime, 'Seconds'));
 
 
   runSimulation() {
@@ -76,7 +76,7 @@ export class SimulatorService {
 
     while (
       ++count < 24*60*60 &&
-      (currentTime < this.options().ClosingTime
+      (currentTime.isLessThan(this.options().ClosingTime)
       || AllQueues.RegisterDeskQueue.length > 0
       || AllQueues.RegisterDesk.length > 0
       || AllQueues.VotingBoothQueue.length > 0
@@ -87,11 +87,11 @@ export class SimulatorService {
         
       //const previousSnapshot = this.simulation().length > 0 ? this.simulation()[this.simulation().length - 1] : undefined;
 
-      this.currentProgressTime.set(currentTime);
-      this.processTimePoint(currentTime, AllQueues);
+      this.currentProgressTime.set(Time.fromTime(currentTime));
+      this.processTimePoint(Time.fromTime(currentTime), AllQueues);
         
       const currentSnapshot = new SimulationSnapshot(
-        currentTime,
+        Time.fromTime(currentTime),
         new Queue<Person>(...deepCopyPerson(AllQueues.BuildingQueue.toArray())),
         new Queue<Person>(...deepCopyPerson(AllQueues.RegisterDeskQueue.toArray())),
         new Queue<Person>(...deepCopyPerson(AllQueues.RegisterDesk.toArray())),
@@ -113,10 +113,10 @@ export class SimulatorService {
   }
 
   getNextTimePoint(
-    currentTime: Dayjs
+    currentTime: Time
   ){
     //TODO - something clever to ignore time when nothing happens - or don't save snapshot if nothing happens
-    return currentTime.add(20, 'second');
+    return currentTime.add(20, 'Seconds');
 
     //const nextMin = currentTime.second(0).add(1, 'minute');
     //
@@ -131,8 +131,8 @@ export class SimulatorService {
     //return dayjs.min(nextMin, nextPersonEvent);
   }
 
-  processTimePoint(time: Dayjs, AllQueues:AllQueues){
-    if(time.second() === 0 && (time.minute() % 1) === 0 && time < this.options().ClosingTime){
+  processTimePoint(time: Time, AllQueues:AllQueues){
+    if(time.seconds === 0 && (time.minutes % 1) === 0 && time.isLessThan(this.options().ClosingTime)){
     //if(time.second() === 0 && time.minute() === 0 && time.hour() === 7){
         const p = new Person();
         p.CurrentLocation = 'Arriving';
@@ -150,22 +150,22 @@ export class SimulatorService {
     this.#processQueue(AllQueues, AllQueues.BuildingQueue, AllQueues.RegisterDeskQueue, 'RegisterDeskQueue', time, (p, t) => p.TimeEnteredRegisterDeskQueue = t);
   }
 
-  #processQueue(AllQueues: AllQueues, currentLocationQueue: Queue<Person>, nextLocationQueue: Queue<Person>, nextLocation: StationLocation, currentTime: Dayjs, updateTimeFunc: (person: Person, time: Dayjs) => void){
+  #processQueue(AllQueues: AllQueues, currentLocationQueue: Queue<Person>, nextLocationQueue: Queue<Person>, nextLocation: StationLocation, currentTime: Time, updateTimeFunc: (person: Person, time: Time) => void){
     if(currentLocationQueue.length === 0){
       return;
     }
     
     var nextPerson = currentLocationQueue.front;
-    if(nextPerson && this.canPersonMove(nextPerson, currentTime, AllQueues)){
+    if(nextPerson && this.canPersonMove(nextPerson, Time.fromTime(currentTime), AllQueues)){
       const person = currentLocationQueue.dequeue();
-      updateTimeFunc(person, currentTime);
+      updateTimeFunc(person, Time.fromTime(currentTime));
       person.CurrentLocation = nextLocation;
       nextLocationQueue.enqueue(person);
     }
   }
 
   //TODO - currently all people move at same speed.  Need to generate random actual time each one spends at each location
-  canPersonMove(person: Person, currentTime: Dayjs, AllQueues: AllQueues){
+  canPersonMove(person: Person, currentTime: Time, AllQueues: AllQueues){
     const totalInBuilding = AllQueues.RegisterDeskQueue.length + AllQueues.RegisterDesk.length + AllQueues.VotingBoothQueue.length + AllQueues.VotingBooth.length + AllQueues.BallotBoxQueue.length + AllQueues.BallotBox.length + AllQueues.ExitQueue.length;
     switch(person.CurrentLocation){
       case 'Arriving':          return totalInBuilding < this.options().MaxInBuilding && this.#canPersonMove(AllQueues.RegisterDeskQueue.length,this.options().MaxQueueRegisterDesk, currentTime, currentTime, 0);
@@ -183,13 +183,13 @@ export class SimulatorService {
   #canPersonMove(
     nextLocationCurrentSize: number, 
     nextLocationMaxSize: number, 
-    timeFinishedPreviousLocation: Dayjs | undefined, 
-    currentTime: Dayjs, 
+    timeFinishedPreviousLocation: Time | undefined, 
+    currentTime: Time, 
     minimumSecondsToCompleteCurrentLocation: number) {
     
       return (
         nextLocationCurrentSize < nextLocationMaxSize
         && timeFinishedPreviousLocation != undefined
-        && (timeFinishedPreviousLocation?.add(minimumSecondsToCompleteCurrentLocation, 'second') ?? currentTime.add(1, 'minute')) <= currentTime);
+        && (Time.fromTime(timeFinishedPreviousLocation).add(minimumSecondsToCompleteCurrentLocation, 'Seconds')).isLessThanOrEqualTo(currentTime));
   }
 }

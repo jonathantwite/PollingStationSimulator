@@ -1,10 +1,10 @@
-import { Dayjs } from "dayjs";
+import { Time } from "../models/Time";
 import { VisitProfileHour } from "./VisitProfileHour";
 
 export type SimulatorOptions = {
     VisitProfile: VisitProfileHour[];
-    OpeningTime: Dayjs;
-    ClosingTime: Dayjs;
+    OpeningTime: Time;
+    ClosingTime: Time;
 
     MaxQueueRegisterDesk: number;
     NumberOfRegisterDesks: number;

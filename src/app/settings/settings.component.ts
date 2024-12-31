@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SimulatorService } from '../generic/services/simulator.service';
-import dayjs from 'dayjs';
+import { Time } from '../generic/models/Time';
 
 @Component({
     selector: 'app-settings',
@@ -16,8 +16,8 @@ export class SettingsComponent {
   showAdvancedSettings = signal(false);
 
   settingsForm = this.formBuilder.group({
-    openingTime: [this.simulator.options().OpeningTime.format('HH:mm'), Validators.required],
-    closingTime: [this.simulator.options().ClosingTime.format('HH:mm'), Validators.required],
+    openingTime: [this.simulator.options().OpeningTime.display(), Validators.required],
+    closingTime: [this.simulator.options().ClosingTime.display(), Validators.required],
     maxQueueRegisterDesk: [this.simulator.options().MaxQueueBallotBox, Validators.required],
     numberOfRegisterDesks: [this.simulator.options().NumberOfRegisterDesks],
     maxQueueVotingBooth: [this.simulator.options().MaxQueueVotingBooth],
@@ -40,8 +40,8 @@ export class SettingsComponent {
   runSimulation() {
     this.simulator.options.set({
       VisitProfile: [],
-      OpeningTime: dayjs('2024-01-01 ' + this.settingsForm.controls.openingTime.value),
-      ClosingTime: dayjs('2024-01-01 ' + this.settingsForm.controls.closingTime.value),
+      OpeningTime: Time.parse(this.settingsForm.controls.openingTime.value ?? ''),
+      ClosingTime: Time.parse(this.settingsForm.controls.closingTime.value ?? ''),
       MaxQueueRegisterDesk: this.settingsForm.controls.maxQueueRegisterDesk.value as number,
       NumberOfRegisterDesks: this.settingsForm.controls.numberOfRegisterDesks.value as number,
       MaxQueueVotingBooth: this.settingsForm.controls.maxQueueVotingBooth.value as number,

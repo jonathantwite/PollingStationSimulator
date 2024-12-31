@@ -33,14 +33,14 @@ export class StatsComponent {
   firstTime = computed(() => this.simulationService.simulation()[0]?.CurrentTime);
   lastTime = computed(() => this.simulationService.simulation()[this.simulationService.simulation().length - 1]?.CurrentTime);
 
-  numberOfTimepoints = computed(() => this.firstTime() && this.lastTime() ? this.lastTime().hour() - this.firstTime().hour() + 1 : 1);
+  numberOfTimepoints = computed(() => this.firstTime() && this.lastTime() ? this.lastTime().hour - this.firstTime().hour + 1 : 1);
 
   //totalInBuilding = computed(() => Array(this.numberOfTimepoints()).fill(1).map((_, i) => ({x: this.firstTime().add(i, 'hour').format('HH:mm'), y: 5})));
   maxInBuilding = computed(() =>
     this.simulationService.simulation()
       .map(s => (
         {
-          time: s.CurrentTime.format('HH:00'),
+          time: `${s.CurrentTime.hour}:00`,
           totalInBuilding: s.totalInBuilding()
         }
       ))
@@ -62,7 +62,7 @@ export class StatsComponent {
     this.simulationService.simulation()
       .map(s => (
         {
-          time: s.CurrentTime.format('HH:00'),
+          time: `${s.CurrentTime.hour}:00`,
           totalInBuildingQueue: s.BuildingQueue.length
         }
       ))

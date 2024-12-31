@@ -1,11 +1,11 @@
 import { Queue } from "queue-typescript";
 import { Person } from "./Person";
-import { Dayjs } from "dayjs";
 import { SimulatorOptions } from "../types/SimulatorOptions";
+import { Time } from "./Time";
 
 export class SimulationSnapshot {
   constructor(
-    public CurrentTime: Dayjs,
+    public CurrentTime: Time,
     public BuildingQueue: Queue<Person>,
     public RegisterDeskQueue: Queue<Person>,
     public RegisterDesk: Queue<Person>,

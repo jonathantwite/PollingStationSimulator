@@ -10,7 +10,7 @@ export class StatsService {
 
   private simulatorService = inject(SimulatorService);
   
-  private lastSnapshot = computed(() => this.simulatorService.simulation()[this.simulatorService.simulation().length-1]);
+  private lastSnapshot = computed(() => this.simulatorService.simulation()[this.simulatorService.simulation().length - 1]);
   
   averageTotalSecondsUntilVoted = computed(() => 
     this.lastSnapshot()?.Voted.toArray()

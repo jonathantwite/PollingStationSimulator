@@ -10,6 +10,6 @@ import { SimulatorService } from '../../generic/services/simulator.service';
 export class SimulationRunningComponent {
   simulator = inject(SimulatorService);
 
-  currentTime = computed(() => this.simulator.currentProgressTime().format('HH:mm'));
+  currentTime = computed(() => this.simulator.currentProgressTime().display());
   currentProgress = this.simulator.currentProgress;
 }
