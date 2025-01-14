@@ -1,10 +1,12 @@
 import { Queue } from "queue-typescript";
-import { Person } from "../models/Person";
-import { Time } from "../models/Time";
-import { SimulatorOptions } from "../types/SimulatorOptions";
-import { deepCopyPerson } from "../../helpers/modelHelpers/PeopleHelpers";
-import { SimulationSnapshot } from "../models/SimulationSnapshot";
-import { StationLocation } from "../types/StationLocation";
+import { deepCopyPerson } from "../helpers/modelHelpers/PeopleHelpers";
+import { Person } from "../simulator/models/Person";
+import { SimulationSnapshot } from "../simulator/models/SimulationSnapshot";
+import { SimulatorOptions } from "../simulator/types/SimulatorOptions";
+import { StationLocation } from "../simulator/types/StationLocation";
+import { Time } from "../simulator/models/Time";
+import { SimulationDto } from "./SimulationDto";
+import { Simulation } from "../simulator/models/Simulation";
 
 type AllQueues = {
   BuildingQueue: Queue<Person>,
@@ -20,7 +22,7 @@ type AllQueues = {
 
 function runSimulation(options: SimulatorOptions) {
     console.log("GO");
-    const simulation: SimulationSnapshot[] = [];
+    const simulation: Simulation = new Simulation(options, []);
     let currentTime = options.OpeningTime;
     
     const AllQueues: AllQueues = {
@@ -66,12 +68,12 @@ function runSimulation(options: SimulatorOptions) {
         new Queue<Person>(...deepCopyPerson(AllQueues.Voted.toArray())),
         options);
           
-      simulation.push(currentSnapshot);
+      simulation.snapshots.push(currentSnapshot);
         
       currentTime = getNextTimePoint(currentTime);
     }
 
-    return simulation;
+    return new SimulationDto(simulation);
   };
 
   function getNextTimePoint(

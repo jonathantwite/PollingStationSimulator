@@ -6,6 +6,7 @@ import { Time } from '../models/Time';
 import { Queue } from 'queue-typescript';
 import { Person } from '../models/Person';
 import { Simulation } from '../models/Simulation';
+import { SimulationDto } from '../../web-worker/SimulationDto';
 
 @Injectable({
   providedIn: 'root'
@@ -48,12 +49,13 @@ export class SimulatorService {
 
     if (typeof Worker !== 'undefined') {
       // Create a new
-      const worker = new Worker(new URL('./../../app.worker', import.meta.url));
+      const worker = new Worker(new URL('./../../web-worker/app.worker', import.meta.url));
       const options = stringify(this.options());
       worker.postMessage(options);
       worker.onmessage = ev => {
         console.log(ev); 
-        const simulation: Simulation = Simulation.fromJsonSnapshots(this.options(), ev.data);
+        const parsedData = parse(ev.data) as SimulationDto;
+        const simulation: Simulation = Simulation.fromDto(parsedData);
         
         console.log(simulation);
         this.simulations.update(s => [...s, simulation]);
