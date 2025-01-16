@@ -1,7 +1,7 @@
 import { Component, computed, inject, ViewChild } from '@angular/core';
 import { StatsService } from '../services/stats.service';
 import { ApexAxisChartSeries, ChartComponent, ChartType, NgApexchartsModule } from 'ng-apexcharts';
-import { SimulatorService } from '../../generic/services/simulator.service';
+import { SimulatorService } from '../../simulator/services/simulator.service';
 
 type ChartOptions = {
   series: NonNullable<ApexAxisChartSeries>;
@@ -30,14 +30,14 @@ export class StatsComponent {
   private statsService = inject(StatsService);
   private simulationService = inject(SimulatorService);
 
-  firstTime = computed(() => this.simulationService.simulation()[0]?.CurrentTime);
-  lastTime = computed(() => this.simulationService.simulation()[this.simulationService.simulation().length - 1]?.CurrentTime);
+  firstTime = computed(() => this.simulationService.simulation()?.snapshots[0]?.CurrentTime);
+  lastTime = computed(() => this.simulationService.simulation()?.snapshots[this.simulationService.simulation()?.snapshots.length ?? 1 - 1]?.CurrentTime);
 
-  numberOfTimepoints = computed(() => this.firstTime() && this.lastTime() ? this.lastTime().hour - this.firstTime().hour + 1 : 1);
+  numberOfTimepoints = computed(() => this.firstTime() && this.lastTime() ? (this.lastTime() ?.hour ?? 0 )- (this.firstTime()?.hour ?? 0) + 1 : 1);
 
   //totalInBuilding = computed(() => Array(this.numberOfTimepoints()).fill(1).map((_, i) => ({x: this.firstTime().add(i, 'hour').format('HH:mm'), y: 5})));
   maxInBuilding = computed(() =>
-    this.simulationService.simulation()
+    this.simulationService.simulation()?.snapshots
       .map(s => (
         {
           time: `${s.CurrentTime.hour}:00`,
@@ -55,11 +55,11 @@ export class StatsComponent {
           arr.push({x: nextVal.time, y: nextVal.totalInBuilding});
         }
         return arr;
-      }, [] as {x: string, y: number}[])
+      }, [] as {x: string, y: number}[]) ?? [] as {x: string, y: number}[]
   );
   
   maxInBuildingQueue = computed(() =>
-    this.simulationService.simulation()
+    this.simulationService.simulation()?.snapshots
       .map(s => (
         {
           time: `${s.CurrentTime.hour}:00`,
@@ -77,7 +77,7 @@ export class StatsComponent {
           arr.push({x: nextVal.time, y: nextVal.totalInBuildingQueue});
         }
         return arr;
-      }, [] as {x: string, y: number}[])
+      }, [] as {x: string, y: number}[]) ?? [] as {x: string, y: number}[]
   );
 
   @ViewChild("chart") chart!: ChartComponent;

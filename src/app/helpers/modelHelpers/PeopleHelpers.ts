@@ -1,5 +1,5 @@
-import { Person } from "../../generic/models/Person";
-import { Time } from "../../generic/models/Time";
+import { Person } from "../../simulator/models/Person";
+import { Time } from "../../simulator/models/Time";
 
 function deepCopyPerson(array: Person[]){
   const copy = JSON.parse(JSON.stringify(array)) as Person[];

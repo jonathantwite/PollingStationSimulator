@@ -2,12 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
 
 import { StatsService } from './stats.service';
-import { SimulationSnapshot } from '../../generic/models/SimulationSnapshot';
+import { SimulationSnapshot } from '../../simulator/models/SimulationSnapshot';
 import { Queue } from 'queue-typescript';
-import { Person } from '../../generic/models/Person';
-import { SimulatorOptions } from "../../generic/types/SimulatorOptions";
-import { SimulatorService } from '../../generic/services/simulator.service';
-import { Time } from '../../generic/models/Time';
+import { Person } from '../../simulator/models/Person';
+import { SimulatorOptions } from "../../simulator/types/SimulatorOptions";
+import { SimulatorService } from '../../simulator/services/simulator.service';
+import { Time } from '../../simulator/models/Time';
 
 fdescribe('StatsService', () => {
   

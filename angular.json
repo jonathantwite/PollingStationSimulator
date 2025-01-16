@@ -36,7 +36,8 @@
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"
-            ]
+            ],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "production": {
@@ -96,7 +97,8 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "codeCoverage": true
+            "codeCoverage": true,
+            "webWorkerTsConfig": "tsconfig.worker.json"
           }
         }
       }

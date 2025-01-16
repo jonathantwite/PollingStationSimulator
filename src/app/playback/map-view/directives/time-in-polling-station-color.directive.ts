@@ -1,5 +1,5 @@
 import { Directive, ElementRef, input, OnChanges, SimpleChanges } from '@angular/core';
-import { Time } from '../../../generic/models/Time';
+import { Time } from '../../../simulator/models/Time';
 
 @Directive({
   selector: '[appTimeInPollingStationColor]',
@@ -13,13 +13,13 @@ export class TimeInPollingStationColorDirective implements OnChanges {
   timeArrived = input<Time>()
   
   ngOnChanges(changes: SimpleChanges): void {
-    if(!this.timeArrived || !this.currentTime){
+    if(!this.timeArrived() || !this.currentTime()){
       return;
     }
     let timeInMinutes = this.currentTime()!.diff(this.timeArrived() as Time, 'Minutes');
     
-    console.log(this.timeArrived(), this.currentTime(), timeInMinutes);
-    
+    //console.log(this.timeArrived(), this.currentTime(), timeInMinutes);
+    (this.el.nativeElement as HTMLElement).title = `${timeInMinutes} mins`
     if(timeInMinutes > 60) {  this.el.nativeElement.style.backgroundColor = 'red'; }
     else if(timeInMinutes > 15) {  this.el.nativeElement.style.backgroundColor = 'orange'; }
     else if(timeInMinutes > 5) {  this.el.nativeElement.style.backgroundColor = 'yellow'; }

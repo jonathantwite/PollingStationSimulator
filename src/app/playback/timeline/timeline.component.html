@@ -1,5 +1,5 @@
 <button (click)="previous()" [disabled]="!hasPrevious()">Previous</button>
-<p style="display: inline;">{{snapshotCurrentTime().displays()}} - {{currentSnapshot().RegisterDesk.length}}</p>
+<p style="display: inline;">{{snapshotCurrentTime()?.displays()}} - {{(currentSnapshot()?.RegisterDesk?.length ?? 0)}}</p>
 <button (click)="next()" [disabled]="!hasNext()">Next</button>
 
 <div>
