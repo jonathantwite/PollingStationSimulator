@@ -66,4 +66,61 @@ describe('Time', () => {
             });
         });
     });
+
+    describe('isLessThanOrEqualTo', () => {
+        const testCases: { t1: Time, t2: Time, expected: boolean}[] = [
+            { t1: new Time(10, 0, 0), t2: new Time(14, 0, 0), expected: true},
+            { t1: new Time(14, 0, 0), t2: new Time(10, 0, 0), expected: false},
+            { t1: new Time(10, 20, 0), t2: new Time(10, 30, 0), expected: true},
+            { t1: new Time(10, 31, 0), t2: new Time(10, 30, 0), expected: false},
+            { t1: new Time(10, 31, 10), t2: new Time(10, 31, 19), expected: true},
+            { t1: new Time(10, 31, 11), t2: new Time(10, 31, 10), expected: false},
+            { t1: new Time(10, 31, 11), t2: new Time(10, 32, 10), expected: true},
+            { t1: new Time(10, 32, 10), t2: new Time(10, 31, 11), expected: false},
+            { t1: new Time(10, 32, 15), t2: new Time(10, 32, 15), expected: true},
+        ];
+        testCases.forEach(({ t1, t2, expected}) => {
+            it(`isLessThanOrEqualTo ${t1.displays()} and ${t2.displays()} is correct`, () => {
+                expect(t1.isLessThanOrEqualTo(t2)).toBe(expected);
+            });
+        });
+    });
+
+    describe('isGreaterThan', () => {
+        const testCases: { t1: Time, t2: Time, expected: boolean}[] = [
+            { t1: new Time(10, 0, 0), t2: new Time(14, 0, 0), expected: false},
+            { t1: new Time(14, 0, 0), t2: new Time(10, 0, 0), expected: true},
+            { t1: new Time(10, 20, 0), t2: new Time(10, 30, 0), expected: false},
+            { t1: new Time(10, 31, 0), t2: new Time(10, 30, 0), expected: true},
+            { t1: new Time(10, 31, 10), t2: new Time(10, 31, 19), expected: false},
+            { t1: new Time(10, 31, 11), t2: new Time(10, 31, 10), expected: true},
+            { t1: new Time(10, 31, 11), t2: new Time(10, 32, 10), expected: false},
+            { t1: new Time(10, 32, 10), t2: new Time(10, 31, 11), expected: true},
+            { t1: new Time(10, 32, 15), t2: new Time(10, 32, 15), expected: false},
+        ];
+        testCases.forEach(({ t1, t2, expected}) => {
+            it(`isGreaterThan ${t1.displays()} and ${t2.displays()} is correct`, () => {
+                expect(t1.isGreaterThan(t2)).toBe(expected);
+            });
+        });
+    });
+
+    describe('isGreaterThanOrEqualTo', () => {
+        const testCases: { t1: Time, t2: Time, expected: boolean}[] = [
+            { t1: new Time(10, 0, 0), t2: new Time(14, 0, 0), expected: false},
+            { t1: new Time(14, 0, 0), t2: new Time(10, 0, 0), expected: true},
+            { t1: new Time(10, 20, 0), t2: new Time(10, 30, 0), expected: false},
+            { t1: new Time(10, 31, 0), t2: new Time(10, 30, 0), expected: true},
+            { t1: new Time(10, 31, 10), t2: new Time(10, 31, 19), expected: false},
+            { t1: new Time(10, 31, 11), t2: new Time(10, 31, 10), expected: true},
+            { t1: new Time(10, 31, 11), t2: new Time(10, 32, 10), expected: false},
+            { t1: new Time(10, 32, 10), t2: new Time(10, 31, 11), expected: true},
+            { t1: new Time(10, 32, 15), t2: new Time(10, 32, 15), expected: true},
+        ];
+        testCases.forEach(({ t1, t2, expected}) => {
+            it(`isGreaterThanOrEqualTo ${t1.displays()} and ${t2.displays()} is correct`, () => {
+                expect(t1.isGreaterThanOrEqualTo(t2)).toBe(expected);
+            });
+        });
+    });
 });
