@@ -1,9 +1,10 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { stringify, parse} from 'flatted';
 import { SimulatorOptions } from '../types/SimulatorOptions';
 import { Time } from '../models/Time';
 import { Simulation } from '../models/Simulation';
 import { SimulationDto } from '../../web-worker/SimulationDto';
+import { SettingsService } from '../../simulation-setup/services/settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,25 +13,9 @@ export class SimulatorService {
 
   constructor() { }
   
-  options = signal<SimulatorOptions>({
-    VisitProfile: [],
-    OpeningTime: new Time(7,0,0),
-    ClosingTime: new Time(22,0,0),
-    NumberOfRegisterDesks: 2,
-    NumberOfVotingBooths: 4,
-    NumberOfBallotBoxes: 1,
-    MaxInBuilding: 120,
-    MaxQueueRegisterDesk: 10,
-    MaxQueueVotingBooth: 4,
-    MaxQueueBallotBox: 4,
-    MinTimeInRegisterDeskQueue: 60,
-    AvgTimeAtRegisterDesk: 90,
-    MinTimeInVotingBoothQueue: 5,
-    AvgTimeAtVotingBooth: 30,
-    MinTimeInBallotBoxQueue: 15,
-    AvgTimeAtBallotBox: 20,
-    MinTimeInExitQueue: 60
-  });
+  settingService = inject(SettingsService);
+
+  options = signal(this.settingService.defaultOptions);
 
   simulations = signal<Simulation[]>([]);
   simulation = computed(() => this.simulations().length > 0 ? this.simulations()[0] : undefined);

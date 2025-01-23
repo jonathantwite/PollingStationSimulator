@@ -9,7 +9,9 @@ import { Time } from '../../simulator/models/Time';
 import { Simulation } from '../../simulator/models/Simulation';
 
 const defaultOptions:SimulatorOptions = {
-  VisitProfile: [],
+  VisitProfile: {name: 'Consistent', profile: (t, o) => 1},
+  TotalElectorate: 2000,
+  Turnout: 65,
   OpeningTime: new Time(7,0,0),
   ClosingTime: new Time(22,0,0),
   NumberOfRegisterDesks: 2,

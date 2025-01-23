@@ -1,8 +1,10 @@
 import { Time } from "../models/Time";
-import { VisitProfileHour } from "./VisitProfileHour";
+import { VisitProfile } from "./VisitProfile";
 
 export type SimulatorOptions = {
-    VisitProfile: VisitProfileHour[];
+    VisitProfile: VisitProfile;
+    TotalElectorate: number;
+    Turnout: number
     OpeningTime: Time;
     ClosingTime: Time;
 

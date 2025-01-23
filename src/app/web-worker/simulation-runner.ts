@@ -22,6 +22,7 @@ type AllQueues = {
 
 function runSimulation(options: SimulatorOptions) {
     console.log("GO");
+    console.log(options);
     const simulation: Simulation = new Simulation(options, []);
     let currentTime = options.OpeningTime;
     

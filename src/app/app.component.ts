@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./generic/components/header/header.component";
 import { MapComponent } from "./playback/map-view/map/map.component";
-import { SettingsComponent } from "./settings/settings.component";
 import { HelpComponent } from './generic/components/help/help.component';
 import { StatsComponent } from './statistics/stats/stats.component';
 import { HelpService } from './generic/services/help.service';
@@ -10,6 +9,7 @@ import { PlaybackService } from './playback/services/playback.service';
 import { IntroComponent } from './playback/intro/intro.component';
 import { SimulatorService } from './simulator/services/simulator.service';
 import { SimulationRunningComponent } from './generic/components/simulation-running/simulation-running.component';
+import { SettingsComponent } from './simulation-setup/settings/settings.component';
 
 @Component({
     selector: 'app-root',

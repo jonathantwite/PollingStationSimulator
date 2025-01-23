@@ -2,6 +2,31 @@
     <button (click)="toggleAdvancedSettings(); false">{{toggleAdvanceSettingsButtonText()}}</button>
     <button type="submit" [disabled]="!settingsForm.valid">Run simulation</button>
     <fieldset>
+        <legend>Electorate</legend>
+        <div>
+            <label for="totalElectorate">Total electorate: </label>
+            <input id="totalElectorate" type="number" [formControl]="settingsForm.controls.totalElectorate" />
+        </div>
+        @if(showAdvancedSettings()){
+            <div>
+                <label for="turnout">Expected turnout: </label>
+                <input id="turnout" type="number" [formControl]="settingsForm.controls.turnout" />
+            </div>
+            <div>
+                <label for="couples">Percentage couples: </label>
+                <input id="couples" type="number" />
+            </div>
+        }
+        <div>
+            <label for="selectedVisitProfile">Visitor profile: </label>
+            <select id="selectedVisitProfile" [formControl]="settingsForm.controls.selectedVisitProfile">
+                @for (profile of availableVisitProfiles; track profile.name) {
+                    <option>{{profile.name}}</option>
+                }
+            </select>
+        </div>
+    </fieldset>
+    <fieldset>
         <legend>Polling Station</legend>
         <div>
             <label for="opening-time">Opening time: </label>

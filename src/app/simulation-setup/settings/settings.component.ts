@@ -1,7 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SimulatorService } from '../simulator/services/simulator.service';
-import { Time } from '../simulator/models/Time';
+import { SimulatorService } from '../../simulator/services/simulator.service';
+import { Time } from '../../simulator/models/Time';
+import { SettingsService } from '../services/settings.service';
 
 @Component({
     selector: 'app-settings',
@@ -12,10 +13,15 @@ import { Time } from '../simulator/models/Time';
 export class SettingsComponent {
   private formBuilder = inject(FormBuilder);
   private simulator = inject(SimulatorService);
+  private service = inject(SettingsService);
 
+  availableVisitProfiles = this.service.availableVisitProfiles;
   showAdvancedSettings = signal(false);
 
   settingsForm = this.formBuilder.group({
+    selectedVisitProfile: [this.simulator.options().VisitProfile.name],
+    totalElectorate: [this.simulator.options().TotalElectorate],
+    turnout: [this.simulator.options().Turnout],
     openingTime: [this.simulator.options().OpeningTime.display(), Validators.required],
     closingTime: [this.simulator.options().ClosingTime.display(), Validators.required],
     maxQueueRegisterDesk: [this.simulator.options().MaxQueueBallotBox, Validators.required],
@@ -39,7 +45,9 @@ export class SettingsComponent {
 
   runSimulation() {
     this.simulator.options.set({
-      VisitProfile: [],
+      VisitProfile: this.availableVisitProfiles.find(vp => vp.name === this.settingsForm.controls.selectedVisitProfile.value) ?? this.availableVisitProfiles[0],
+      TotalElectorate: this.settingsForm.controls.totalElectorate.value as number,
+      Turnout: this.settingsForm.controls.turnout.value as number,
       OpeningTime: Time.parse(this.settingsForm.controls.openingTime.value ?? ''),
       ClosingTime: Time.parse(this.settingsForm.controls.closingTime.value ?? ''),
       MaxQueueRegisterDesk: this.settingsForm.controls.maxQueueRegisterDesk.value as number,
