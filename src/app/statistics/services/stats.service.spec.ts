@@ -88,15 +88,15 @@ describe('StatsService', () => {
 
       p1.CurrentLocation = 'Exited';
       p1.TimeArrived = t1;
-      p1.TimeFinishedBallotBox = t1.add(dt1, 'Minutes');
+      p1.TimeFinishedBallotBox = Time.fromTime(t1).add(dt1, 'Minutes');
       
       p2.CurrentLocation = 'Exited';
       p2.TimeArrived = t2;
-      p2.TimeFinishedBallotBox = t2.add(dt2, 'Minutes');
+      p2.TimeFinishedBallotBox = Time.fromTime(t2).add(dt2, 'Minutes');
       
       p3.CurrentLocation = 'Exited';
       p3.TimeArrived = t3;
-      p3.TimeFinishedBallotBox = t3.add(dt3, 'Minutes');
+      p3.TimeFinishedBallotBox = Time.fromTime(t3).add(dt3, 'Minutes');
 
       const simulationOutput: SimulationSnapshot[] = [
         new SimulationSnapshot(
@@ -132,7 +132,7 @@ describe('StatsService', () => {
     
     it('averageTotalSecondsUntilVoted correct value', () => {
       var actual = statService.averageTotalSecondsUntilVoted();
-      expect(actual).toBe(10 * 60);
+      expect(actual).toBe(((5+10+15)/3) * 60);
     });
   });
   
