@@ -1,10 +1,7 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { stringify, parse} from 'flatted';
 import { SimulatorOptions } from '../types/SimulatorOptions';
-import { SimulationSnapshot } from '../models/SimulationSnapshot';
 import { Time } from '../models/Time';
-import { Queue } from 'queue-typescript';
-import { Person } from '../models/Person';
 import { Simulation } from '../models/Simulation';
 import { SimulationDto } from '../../web-worker/SimulationDto';
 

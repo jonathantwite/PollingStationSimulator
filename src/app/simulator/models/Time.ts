@@ -89,7 +89,7 @@ export class Time {
     private asMinutesFromMidnight = () => (this.hour * 60) + this.minutes;
     private asSecondsFromMidnight = () => (this.hour * 3600) + (this.minutes * 60) + this.seconds;
 
-    public static fromObject = (object: any) => {
+    public static fromObject = (object: {hour: number, minutes: number, seconds: number} | undefined) => {
         if(!object){
             return undefined
         }

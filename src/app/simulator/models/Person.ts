@@ -1,6 +1,18 @@
 import { StationLocation } from "../types/StationLocation";
 import { Time } from "./Time";
 
+type PersonLikeType = {
+    TimeArrived?: {hour: number, minutes: number, seconds: number},
+    TimeEnteredRegisterDeskQueue?: {hour: number, minutes: number, seconds: number},
+    TimeFinishedRegisterDeskQueue?: {hour: number, minutes: number, seconds: number},
+    TimeFinishedRegisterDesk?: {hour: number, minutes: number, seconds: number},
+    TimeFinishedVotingBoothQueue?: {hour: number, minutes: number, seconds: number},
+    TimeFinishedVotingBooth?: {hour: number, minutes: number, seconds: number},
+    TimeFinishedBallotBoxQueue?: {hour: number, minutes: number, seconds: number},
+    TimeFinishedBallotBox?: {hour: number, minutes: number, seconds: number},
+    TimeExited?: {hour: number, minutes: number, seconds: number},
+}
+
 export class Person {
     CurrentLocation: StationLocation = 'Arriving';
     TimeArrived?: Time;
@@ -13,7 +25,7 @@ export class Person {
     TimeFinishedBallotBox?: Time;
     TimeExited?: Time;
 
-    static fromObject(obj: any) {
+    static fromObject(obj: PersonLikeType) {
         const p = new this();
         p.TimeArrived = Time.fromObject(obj.TimeArrived);
         p.TimeEnteredRegisterDeskQueue = Time.fromObject(obj.TimeEnteredRegisterDeskQueue);
