@@ -14,6 +14,9 @@ describe('QueueComponent', () => {
 
     fixture = TestBed.createComponent(QueueComponent);
     component = fixture.componentInstance;
+
+    fixture.componentRef.setInput('people', undefined);
+
     fixture.detectChanges();
   });
 

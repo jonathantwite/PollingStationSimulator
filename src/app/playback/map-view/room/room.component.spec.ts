@@ -14,7 +14,12 @@ describe('RoomComponent', () => {
 
     fixture = TestBed.createComponent(RoomComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    
+    fixture.componentRef.setInput('roomTitle', 'Room');
+    fixture.componentRef.setInput('queue', undefined);
+    
+    fixture.autoDetectChanges();
+    await fixture.whenStable();
   });
 
   it('should create', () => {
