@@ -50,10 +50,13 @@ export class Time {
     };
 
     diff = (t2: Time, unit: TimeUnit) => {
+        const largest = t2.isGreaterThanOrEqualTo(this) ? t2 : this;
+        const smallest = largest === t2 ? this : t2;
+
         switch(unit) {
-            case 'Hours': return Math.abs(t2.hour - this.hour);
-            case 'Minutes': return Math.abs(t2.asMinutesFromMidnight() - this.asMinutesFromMidnight());
-            case 'Seconds': return Math.abs(t2.asSecondsFromMidnight() - this.asSecondsFromMidnight());
+            case 'Hours': return largest.hour - smallest.hour - (smallest.minutes > largest.minutes || (smallest.minutes === largest.minutes && smallest.seconds > largest.seconds) ? 1 : 0);
+            case 'Minutes': return largest.asMinutesFromMidnight() - smallest.asMinutesFromMidnight() - (smallest.seconds > largest.seconds ? 1 : 0);
+            case 'Seconds': return largest.asSecondsFromMidnight() - smallest.asSecondsFromMidnight();
         }
     };
 

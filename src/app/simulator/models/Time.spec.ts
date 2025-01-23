@@ -26,6 +26,8 @@ describe('Time', () => {
             { t1: new Time(18, 0, 0), t2: new Time(14, 0, 0), unit: 'Hours', expected: 4},
             { t1: new Time(16, 0, 0), t2: new Time(14, 25, 0), unit: 'Hours', expected: 1},
             { t1: new Time(12, 0, 0), t2: new Time(14, 25, 0), unit: 'Hours', expected: 2},
+            { t1: new Time(12, 0, 0), t2: new Time(12, 0, 0), unit: 'Hours', expected: 0},
+            { t1: new Time(12, 0, 0), t2: new Time(12, 25, 0), unit: 'Hours', expected: 0},
             { t1: new Time(12, 0, 0), t2: new Time(12, 25, 0), unit: 'Minutes', expected: 25},
             { t1: new Time(12, 25, 0), t2: new Time(12, 0, 0), unit: 'Minutes', expected: 25},
             { t1: new Time(12, 0, 0), t2: new Time(12, 25, 15), unit: 'Minutes', expected: 25},
@@ -34,11 +36,13 @@ describe('Time', () => {
             { t1: new Time(12, 25, 0), t2: new Time(12, 0, 15), unit: 'Minutes', expected: 24},
             { t1: new Time(12, 25, 0), t2: new Time(13, 10, 0), unit: 'Minutes', expected: 45},
             { t1: new Time(13, 10, 0), t2: new Time(12, 25, 0), unit: 'Minutes', expected: 45},
+            { t1: new Time(13, 10, 0), t2: new Time(13, 10, 0), unit: 'Minutes', expected: 0},
             { t1: new Time(13, 50, 10), t2: new Time(14, 55, 5), unit: 'Seconds', expected: 3895},
             { t1: new Time(14, 55, 5), t2: new Time(13, 50, 10), unit: 'Seconds', expected: 3895},
+            { t1: new Time(14, 55, 5), t2: new Time(14, 55, 5), unit: 'Seconds', expected: 0},
         ];
         testCases.forEach(({ t1, t2, unit, expected }) => {
-            it(`diff between ${t1.displays()} and ${t2.displays()} is correct`, () => {
+            it(`diff between ${t1.displays()} and ${t2.displays()} in ${unit} is correct`, () => {
                 expect(t1.diff(t2, unit)).toBe(expected);
             });
         });
